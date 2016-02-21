@@ -1,0 +1,30 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'war'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+  compile "org.springframework:spring-aop:4.2.4.RELEASE",
+          "org.springframework:spring-context:4.2.4.RELEASE",
+          "org.springframework:spring-core:4.2.4.RELEASE",
+          "org.springframework:spring-expression:4.2.4.RELEASE",
+          "org.springframework:spring-web:4.2.4.RELEASE",
+          "org.springframework:spring-webmvc:4.2.4.RELEASE",
+          "org.springframework:spring-context-support:4.2.4.RELEASE",
+          "org.springframework:spring-jdbc:4.2.4.RELEASE",
+          "org.springframework:spring-orm:4.2.4.RELEASE",
+          "org.springframework:spring-tx:4.2.4.RELEASE",
+          "com.fasterxml.jackson.core:jackson-databind:2.7.1-1",
+          "javax.servlet:javax.servlet-api:3.1.0",
+          "org.slf4j:slf4j-simple:1.7.16",
+          "com.sun.xml.security:apache-xmlsec:1.0.1",
+          "javax.servlet:jstl:1.2"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
