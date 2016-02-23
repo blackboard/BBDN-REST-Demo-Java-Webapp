@@ -1,12 +1,16 @@
 package bbdn.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Token {
 
+	@JsonProperty("access_token")
     private String access_token;
-    private String token_type;
+	@JsonProperty("token_type")
+	private String token_type;
+	@JsonProperty("expires_in")
     private String expires_in;
 
     public Token() {
