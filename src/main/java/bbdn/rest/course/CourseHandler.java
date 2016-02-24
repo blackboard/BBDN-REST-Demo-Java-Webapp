@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -17,43 +18,30 @@ public class CourseHandler implements RestHandler {
 
 	@Override
 	public String createObject(String access_token) {
-		log.debug("CourseHandler::CREATE");
+		log.info("CREATE");
 		return(RestRequest.sendRequest(RestConstants.COURSE_PATH, HttpMethod.POST, access_token, getBody()));
 	}
 
 	@Override
 	public String readObject(String access_token) {
-		log.debug("CourseHandler::READ");
-		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/" + RestConstants.COURSE_ID, HttpMethod.GET, access_token, ""));
+		log.info("READ");
+		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/externalId:" + RestConstants.COURSE_ID, HttpMethod.GET, access_token, ""));
 	}
 
 	@Override
 	public String updateObject(String access_token) {
-		log.debug("CourseHandler::UPDATE");
-		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/" + RestConstants.COURSE_ID, HttpMethod.POST, access_token, getBody()));
+		log.info("UPDATE");
+		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/externalId:" + RestConstants.COURSE_ID, HttpMethod.PATCH, access_token, getBody()));
 	}
 
 	@Override
 	public String deleteObject(String access_token) {
-		log.debug("CourseHandler::DELETE");
-		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/" + RestConstants.COURSE_ID, HttpMethod.DELETE, access_token, ""));
+		log.info("DELETE");
+		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/externalId:" + RestConstants.COURSE_ID, HttpMethod.DELETE, access_token, ""));
 	}
 	
 	private String getBody() {
-		/*
-		 * {
-            "externalId":self.courseExternalId,
-            "dataSourceId":self.dskExternalId,
-            "courseId":self.courseExternalId,
-            "name":"Course used for REST demo",
-            "description":"Course used for REST demo",
-            "allowGuests":"true",
-            "readOnly": "false",
-            "termId":self.termExternalId,
-            "availability": {
-                "duration":"continuous"
-            }
-		 */
+
 		ObjectMapper objMapper = new ObjectMapper();
 		ObjectNode course = objMapper.createObjectNode();
 		course.put("externalId", RestConstants.COURSE_ID);
@@ -67,10 +55,16 @@ public class CourseHandler implements RestHandler {
 		ObjectNode availability = course.putObject("availability");
 		availability.put("duration", "continuous");
 		
-		log.debug("CourseHandler::getBody:\nobjMapper\n");
-		log.debug(objMapper.toString());
-		log.debug("\ncourse\n");
-		log.debug(course.asText());
-		return(objMapper.toString());
+		String body = "";
+		try {
+			body = objMapper.writeValueAsString(course);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		log.info(body);
+
+		return(body);
 	}
 }

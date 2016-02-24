@@ -21,5 +21,9 @@
 	
 	<h1>Result</h1>
 		${return_json}
+		
+	<form action="index" method="get">
+		<input value="Back" type="submit" />
+	</form>
 </body>
 </html>

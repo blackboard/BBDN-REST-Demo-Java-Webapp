@@ -8,8 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 public abstract class RestRequest {
@@ -19,6 +21,11 @@ public abstract class RestRequest {
 	public static String sendRequest(String sUri, HttpMethod method, String access_token, String body) {
 		
 		RestTemplate restTemplate = new RestTemplate();
+		
+		restTemplate.setErrorHandler(new DefaultResponseErrorHandler(){
+		    protected boolean hasError(HttpStatus statusCode) {
+		        return false;
+		    }});
         
         URI uri = null;
 		try {
@@ -31,7 +38,7 @@ public abstract class RestRequest {
 		HttpHeaders headers = new HttpHeaders();
 		
 		headers.add("Authorization", "Bearer " + access_token);
-		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		headers.setContentType(MediaType.APPLICATION_JSON);
 		log.info("Request Headers: " + headers.toString());
 		
 		HttpEntity<String> request = new HttpEntity<String>(body, headers);

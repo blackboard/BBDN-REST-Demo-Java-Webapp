@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -17,57 +18,83 @@ public class TermHandler implements RestHandler {
 
 	@Override
 	public String createObject(String access_token) {
-		log.debug("TermHandler::CREATE");
+		log.info("CREATE");
 		return(RestRequest.sendRequest(RestConstants.TERM_PATH, HttpMethod.POST, access_token, getBody()));
 	}
 
 	@Override
 	public String readObject(String access_token) {
-		log.debug("TermHandler::READ");
-		return(RestRequest.sendRequest(RestConstants.TERM_PATH + "/" + RestConstants.TERM_ID, HttpMethod.GET, access_token, ""));
+		log.info("READ");
+		return(RestRequest.sendRequest(RestConstants.TERM_PATH + "/externalId:" + RestConstants.TERM_ID, HttpMethod.GET, access_token, ""));
 	}
 
 	@Override
 	public String updateObject(String access_token) {
-		log.debug("TermHandler::UPDATE");
-		return(RestRequest.sendRequest(RestConstants.TERM_PATH + "/" + RestConstants.TERM_ID, HttpMethod.POST, access_token, getBody()));
+		log.info("UPDATE");
+		return(RestRequest.sendRequest(RestConstants.TERM_PATH + "/externalId:" + RestConstants.TERM_ID, HttpMethod.POST, access_token, getBody()));
 	}
 
 	@Override
 	public String deleteObject(String access_token) {
-		log.debug("TermHandler::DELETE");
-		return(RestRequest.sendRequest(RestConstants.TERM_PATH + "/" + RestConstants.TERM_ID, HttpMethod.DELETE, access_token, ""));
+		log.info("DELETE");
+		return(RestRequest.sendRequest(RestConstants.TERM_PATH + "/externalId:" + RestConstants.TERM_ID, HttpMethod.DELETE, access_token, ""));
 	}
 	
 	private String getBody() {
+		
 		/*
-		 * {
-            "externalId":self.termExternalId,
-            "dataSourceId": self.dskExternalId,
-            "name":"REST Demo Term",
-            "description": {
-                "rawText": "Term used for REST demo",
-                "displayText": "Term used for REST demo",
-            },
-            "availability": {
-                "duration":"continuous"
-            }
+		 * 
+{
+  "externalId": "string",
+  "dataSourceId": "string",
+  "name": "string",
+  "description": "string",
+  "availability": {
+    "available": "Yes",
+    "duration": {
+      "type": "Continuous",
+      "start": "2016-02-24T19:53:21.448Z",
+      "end": "2016-02-24T19:53:21.448Z",
+      "daysOfUse": 0
+    }
+  }
+}
+
+{
+  "externalId" : "BBDN-TERM-JAVA",
+  "dataSourceId" : "BBDN-DSK-JAVA",
+  "name" : "REST Demo Term - Java",
+  "description" : "Term Used For REST Demo - Java",
+  "availability" : {
+    "available" : "Yes",
+    "duration" : {
+      "type" : "continuous"
+    }
+  }
+}
 		 */
+
 		ObjectMapper objMapper = new ObjectMapper();
 		ObjectNode term = objMapper.createObjectNode();
 		term.put("externalId", RestConstants.TERM_ID);
 		term.put("dataSourceId", RestConstants.DATASOURCE_ID);
 		term.put("name", RestConstants.TERM_NAME);
-		ObjectNode description = term.putObject("description");
-		description.put("rawText", RestConstants.TERM_RAW);
-		description.put("displayText", RestConstants.TERM_DISPLAY);
+		term.put("description", RestConstants.TERM_DISPLAY);
 		ObjectNode availability = term.putObject("availability");
-		availability.put("duration", "continuous");
+		availability.put("available", "Yes");
+		ObjectNode duration = availability.putObject("duration");
+		duration.put("type",  "Continuous");
 		
-		log.debug("TermHandler::getBody:\nobjMapper\n");
-		log.debug(objMapper.toString());
-		log.debug("\nterm\n");
-		log.debug(term.asText());
-		return(objMapper.toString());
+		String body = "";
+		try {
+			body = objMapper.writeValueAsString(term);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		log.info(body);
+
+		return(body);
 	}
 }

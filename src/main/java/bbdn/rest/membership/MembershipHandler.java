@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -17,38 +18,30 @@ public class MembershipHandler implements RestHandler {
 	
 	@Override
 	public String createObject(String access_token) {
-		log.debug("MembershipHandler::CREATE");
+		log.info("CREATE");
 		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/" + RestConstants.COURSE_ID + "/users", HttpMethod.POST, access_token, getBody()));
 	}
 
 	@Override
 	public String readObject(String access_token) {
-		log.debug("MembershipHandler::READ");
-		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/" + RestConstants.COURSE_ID + "/users/"+ RestConstants.USER_ID, HttpMethod.GET, access_token, ""));
+		log.info("READ");
+		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/externalId:" + RestConstants.COURSE_ID + "/users/externalId:"+ RestConstants.USER_ID, HttpMethod.GET, access_token, ""));
 	}
 
 	@Override
 	public String updateObject(String access_token) {
-		log.debug("MembershipHandler::UPDATE");
-		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/" + RestConstants.COURSE_ID + "/users/"+ RestConstants.USER_ID, HttpMethod.POST, access_token, getBody()));
+		log.info("UPDATE");
+		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/externalId:" + RestConstants.COURSE_ID + "/users/externalId:"+ RestConstants.USER_ID, HttpMethod.PATCH, access_token, getBody()));
 	}
 
 	@Override
 	public String deleteObject(String access_token) {
-		log.debug("MembershipHandler::DELETE");
-		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/" + RestConstants.COURSE_ID + "/users/"+ RestConstants.USER_ID, HttpMethod.DELETE, access_token, ""));
+		log.info("DELETE");
+		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/externalId:" + RestConstants.COURSE_ID + "/users/externalId:"+ RestConstants.USER_ID, HttpMethod.DELETE, access_token, ""));
 	}
 	
 	private String getBody() {
-		/*
-		 * {
-            "dataSourceId":self.dskExternalId,
-            "availability": {
-                "available":"Yes"
-            },
-            "courseRoleId":"Instructor"
-        }
-		 */
+		
 		ObjectMapper objMapper = new ObjectMapper();
 		ObjectNode membership = objMapper.createObjectNode();
 		membership.put("dataSourceId", RestConstants.DATASOURCE_ID);
@@ -56,10 +49,16 @@ public class MembershipHandler implements RestHandler {
 		availability.put("available", "Yes");
 		membership.put("courseRoleId", "Instructor");
 		
-		log.debug("MembershipHandler::getBody:\nobjMapper\n");
-		log.debug(objMapper.toString());
-		log.debug("\nmembership\n");
-		log.debug(membership.asText());
-		return(objMapper.toString());
+		String body = "";
+		try {
+			body = objMapper.writeValueAsString(membership);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		log.info(body);
+
+		return(body);
 	}
 }
