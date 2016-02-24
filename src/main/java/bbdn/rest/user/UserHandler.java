@@ -45,7 +45,7 @@ public class UserHandler implements RestHandler {
 		ObjectMapper objMapper = new ObjectMapper();
 		ObjectNode user = objMapper.createObjectNode();
 		user.put("externalId", RestConstants.USER_ID);
-		user.put("dataSourceId", RestConstants.DATASOURCE_ID);
+		//user.put("dataSourceId", RestConstants.DATASOURCE_ID);
 		user.put("userName", RestConstants.USER_NAME);
 		user.put("password", RestConstants.USER_PASS);
 		ObjectNode availability = user.putObject("availability");

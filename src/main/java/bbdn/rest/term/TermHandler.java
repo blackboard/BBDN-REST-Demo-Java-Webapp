@@ -31,7 +31,7 @@ public class TermHandler implements RestHandler {
 	@Override
 	public String updateObject(String access_token) {
 		log.info("UPDATE");
-		return(RestRequest.sendRequest(RestConstants.TERM_PATH + "/externalId:" + RestConstants.TERM_ID, HttpMethod.POST, access_token, getBody()));
+		return(RestRequest.sendRequest(RestConstants.TERM_PATH + "/externalId:" + RestConstants.TERM_ID, HttpMethod.PATCH, access_token, getBody()));
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class TermHandler implements RestHandler {
 		ObjectMapper objMapper = new ObjectMapper();
 		ObjectNode term = objMapper.createObjectNode();
 		term.put("externalId", RestConstants.TERM_ID);
-		term.put("dataSourceId", RestConstants.DATASOURCE_ID);
+		//term.put("dataSourceId", RestConstants.DATASOURCE_ID);
 		term.put("name", RestConstants.TERM_NAME);
 		term.put("description", RestConstants.TERM_DISPLAY);
 		ObjectNode availability = term.putObject("availability");

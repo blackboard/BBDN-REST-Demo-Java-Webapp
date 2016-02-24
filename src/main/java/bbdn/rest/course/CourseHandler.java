@@ -45,7 +45,7 @@ public class CourseHandler implements RestHandler {
 		ObjectMapper objMapper = new ObjectMapper();
 		ObjectNode course = objMapper.createObjectNode();
 		course.put("externalId", RestConstants.COURSE_ID);
-		course.put("dataSourceId", RestConstants.DATASOURCE_ID);
+		//course.put("dataSourceId", RestConstants.DATASOURCE_ID);
 		course.put("courseId", RestConstants.COURSE_ID);
 		course.put("name", RestConstants.COURSE_NAME);
 		course.put("description", RestConstants.COURSE_DESCRIPTION);

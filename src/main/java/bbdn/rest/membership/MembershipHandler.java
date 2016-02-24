@@ -19,7 +19,7 @@ public class MembershipHandler implements RestHandler {
 	@Override
 	public String createObject(String access_token) {
 		log.info("CREATE");
-		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/" + RestConstants.COURSE_ID + "/users", HttpMethod.POST, access_token, getBody()));
+		return(RestRequest.sendRequest(RestConstants.COURSE_PATH + "/externalId:" + RestConstants.COURSE_ID + "/users/externalId:"+ RestConstants.USER_ID, HttpMethod.PUT, access_token, getBody()));
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class MembershipHandler implements RestHandler {
 		
 		ObjectMapper objMapper = new ObjectMapper();
 		ObjectNode membership = objMapper.createObjectNode();
-		membership.put("dataSourceId", RestConstants.DATASOURCE_ID);
+		//membership.put("dataSourceId", RestConstants.DATASOURCE_ID);
 		ObjectNode availability = membership.putObject("availability");
 		availability.put("available", "Yes");
 		membership.put("courseRoleId", "Instructor");

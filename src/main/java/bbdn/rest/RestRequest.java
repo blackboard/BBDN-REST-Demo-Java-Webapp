@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,33 +21,43 @@ public abstract class RestRequest {
 	
 	public static String sendRequest(String sUri, HttpMethod method, String access_token, String body) {
 		
-		RestTemplate restTemplate = new RestTemplate();
-		
-		restTemplate.setErrorHandler(new DefaultResponseErrorHandler(){
-		    protected boolean hasError(HttpStatus statusCode) {
-		        return false;
-		    }});
-        
-        URI uri = null;
 		try {
-			uri = new URI(RestConstants.HOSTNAME + sUri);
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			RestTemplate restTemplate = new RestTemplate();
+		
+			// Workaround for allowing unsuccessful HTTP Errors to still print to the screen
+			restTemplate.setErrorHandler(new DefaultResponseErrorHandler(){
+			    protected boolean hasError(HttpStatus statusCode) {
+			        return false;
+			    }});
+			
+			// Workaround to allow for PATCH requests
+			HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+			restTemplate.setRequestFactory(requestFactory);
+	        
+	        URI uri = null;
+			try {
+				uri = new URI(RestConstants.HOSTNAME + sUri);
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+			HttpHeaders headers = new HttpHeaders();
+			
+			headers.add("Authorization", "Bearer " + access_token);
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			log.info("Request Headers: " + headers.toString());
+			
+			HttpEntity<String> request = new HttpEntity<String>(body, headers);
+			log.info("Request Body: " + request.getBody());
+			
+			ResponseEntity<String> response = restTemplate.exchange(uri, method, request, String.class);
+			log.info("Response: " + response);
+	        
+	        return (response.toString());
 		}
-        
-		HttpHeaders headers = new HttpHeaders();
-		
-		headers.add("Authorization", "Bearer " + access_token);
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		log.info("Request Headers: " + headers.toString());
-		
-		HttpEntity<String> request = new HttpEntity<String>(body, headers);
-		log.info("Request Body: " + request.getBody());
-		
-		ResponseEntity<String> response = restTemplate.exchange(uri, method, request, String.class);
-		log.info("Response: " + response);
-        
-        return (response.toString());
+		catch (Exception e) {
+			return(e.getMessage());
+		}
 	}
 }
