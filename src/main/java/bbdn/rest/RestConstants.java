@@ -3,8 +3,9 @@ package bbdn.rest;
 public abstract class RestConstants {
 
 	public final static String HOSTNAME = "http://localhost:9876";
-	public final static String KEY = "d03caa33-1095-47b9-bc67-f5cd634430b1"; 
-	public final static String SECRET = "QSFClAMu5KmoG8yFbHTi7pjhsseJl4uz";
+	public final static String KEY = "insert_your_application_key_here"; 
+	public final static String SECRET = "insert_your_application_secret_here";
+	
 	public final static String AUTH_PATH = "/learn/api/public/v1/oauth2/token";
 	
 	public final static String DATASOURCE_PATH = "/learn/api/public/v1/dataSources";

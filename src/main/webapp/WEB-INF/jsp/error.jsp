@@ -51,6 +51,8 @@
 	
 	<p><%=message%></p>
 	
+	<br /><br />
+	
 	<form action="index" method="get">
 		<input value="Back" type="submit" />
 	</form>
