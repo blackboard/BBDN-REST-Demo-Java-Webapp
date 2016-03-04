@@ -25,7 +25,7 @@ This sample code was built with Java JDK 1.8.0_60.
 2. Replace place holders with your developer credentials and System URL, as described in the "Configuring the Script" section below<br />
 3. Build project - <i>./gradlew build</i><br />
 4. Deploy war file - <i>cp build/libs/bbdn-rest-demo-java.war tomcat/webapps</i><br />
-5. Access index in browser - <i>http://localhost:8080/bbdn-rest-demo-java/index</><br />
+5. Access index in browser - <i>http://localhost:8080/bbdn-rest-demo-java/index</i><br />
 6. Follow the on-screen instructions
 
 ### Configuring the Script
