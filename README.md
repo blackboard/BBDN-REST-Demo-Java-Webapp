@@ -58,4 +58,4 @@ All generated output is sent to the browser.
 To run the demo if you have not already done so you must as outlined above register the application via the Developer Portal and add the application to your test environment using the REST API Integration tool.
 
 ### Conclusion
-For a thorough walkthrough of this code, visit the corresponding Blackboard Developer Community <a href="<need a url">REST Demo Using Java</a>.
+For a thorough walkthrough of this code, visit the corresponding Blackboard Developer Community <a href="<need a url">REST Demo Using Java</a> document.
