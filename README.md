@@ -1,6 +1,6 @@
 # bbdn-rest-demo-java
-This project contains sample code for demonstrating the Blackboard Learn REST APIs in Python.
-This sample code was built with Python 2.7.10.
+This project contains sample code for demonstrating the Blackboard Learn REST APIs in  Tomcat Java Webapp.
+This sample code was built with Java JDK 1.8.0_60.
 
 ###Project at a glance:
 - Target: Blackboard Learn SaaS Release 2015.11.0-rel.8+0a806d1 minimum
