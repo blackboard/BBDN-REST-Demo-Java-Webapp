@@ -21,12 +21,12 @@ This sample code was built with Java JDK 1.8.0_60.
 - Gradle: Relies on Gradle 2.23. 
 
 ###To Use
-1 Start tomcat (tomcat/bin/startup.sh)
-2 Replace place holders with your developer credentials and System URL, as described in the "Configuring the Script" section below
-3 Build project (./gradlew build)
-4 Deploy war file (cp build/libs/bbdn-rest-demo-java.war tomcat/webapps)
-5 Access index in browser (http://localhost:8080/bbdn-rest-demo-java/index)
-6 Follow the on-screen instructions
+1. Start tomcat - <i>tomcat/bin/startup.sh</i><br />
+2. Replace place holders with your developer credentials and System URL, as described in the "Configuring the Script" section below<br />
+3. Build project - <i>./gradlew build</i><br />
+4. Deploy war file - <i>cp build/libs/bbdn-rest-demo-java.war tomcat/webapps</i><br />
+5. Access index in browser - <i>http://localhost:8080/bbdn-rest-demo-java/index</><br />
+6. Follow the on-screen instructions
 
 ### Configuring the Script
 Before executing the script to run against your test server you must configure it with your registered application's URL, Key, and Secret.
