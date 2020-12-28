@@ -26,6 +26,3 @@ dependencies {
           "javax.servlet:jstl:1.2"
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
-}

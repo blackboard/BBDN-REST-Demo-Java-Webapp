@@ -18,7 +18,7 @@ public abstract class RestConstants {
 	public final static String TERM_RAW = "Term Used For REST Demo - Java";
 	public final static String TERM_DISPLAY = "Term Used For REST Demo - Java";
     
-	public final static String COURSE_PATH = "/learn/api/public/v1/courses";
+	public final static String COURSE_PATH = "/learn/api/public/v3/courses";
 	public final static String COURSE_ID = "BBDN-Java-REST-Demo";
 	public final static String COURSE_NAME = "Course Used For REST Demo - Java";
 	public final static String COURSE_DESCRIPTION = "Course Used For REST Demo - Java";
